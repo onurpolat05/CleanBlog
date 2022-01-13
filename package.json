@@ -3,10 +3,18 @@
   "version": "1.0.0",
   "description": "blog",
   "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "repository": "https://github.com/onurpolat05/CleanBlog.git",
   "author": "“Onur” <“onurpolat711@gmail.com”>",
   "license": "MIT",
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
   }
 }
