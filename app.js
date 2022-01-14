@@ -18,19 +18,27 @@ app.use(express.static('public'));
 
 app.get('/', async(req, res) => {
   const blogs = await Blog.find({});
-
   res.render('index',{blogs});
 });
+app.get('/blogs/:id', async (req, res) => {
+  
+  const blog= await Blog.findById(req.params.id)
+  res.render('post', {blog})
+});
+
 app.get('/about', (req, res) => {
   res.render('about');
 });
 app.get('/add', async(req, res) => {
+  res.render('add');
+});
+app.post('/blogs', async(req, res) => {
   await Blog.create(req.body);
 
   res.redirect('/');
 });
 
-const port = 3000;
+const port = 4000;
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} basladı`);
