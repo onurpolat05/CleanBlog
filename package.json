@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "blog",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -17,6 +16,7 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.2",
+    "method-override": "^3.0.0",
     "mongoose": "^6.1.6"
   }
 }

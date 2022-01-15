@@ -1,42 +1,41 @@
-import express from 'express';
-import mongoose from 'mongoose';
+const express = require('express');
+const mongoose = require('mongoose');
+const ejs = require('ejs');
+const methodOverride = require('method-override');
+const blogController = require('./controllers/blogControllers.js');
+const pageController = require('./controllers/pageControllers');
 
-import path from 'path';
-import ejs from 'ejs';
-import Blog from './models/Blogs.js'
 const app = express();
 
 mongoose.connect('mongodb://localhost/cleanblog-test-db');
 
 //TEMPLATE ENGİNE
 app.set('view engine', 'ejs');
+//MİDDLEWARES
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 app.use(express.static('public'));
+//ROUTES
 
-app.get('/', async(req, res) => {
-  const blogs = await Blog.find({});
-  res.render('index',{blogs});
-});
-app.get('/blogs/:id', async (req, res) => {
-  
-  const blog= await Blog.findById(req.params.id)
-  res.render('post', {blog})
-});
+app.get('/', blogController.getAllBlogs);
+app.get('/blogs/:id', blogController.getBlog);
+app.put('/blogs/:id', blogController.updateBlog);
+app.delete('/blogs/:id', blogController.deleteBlog);
 
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-app.get('/add', async(req, res) => {
-  res.render('add');
-});
-app.post('/blogs', async(req, res) => {
-  await Blog.create(req.body);
+app.get('/about', pageController.getAboutPage);
+app.get('/add', pageController.getAddPage);
+app.get('/blogs/edit/:id', pageController.getEditPage);
 
-  res.redirect('/');
-});
+
+
+app.post('/blogs', blogController.createBlog);
 
 const port = 4000;
 
