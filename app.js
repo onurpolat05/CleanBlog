@@ -7,7 +7,12 @@ const pageController = require('./controllers/pageControllers');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/cleanblog-test-db');
+mongoose.connect('mongodb+srv://onur:rFfTCjncv9EYTTAM@cluster0.hfk0b.mongodb.net/clean-blog?retryWrites=true&w=majority')
+.then(()=>{
+console.log('DB CONNET')
+}).catch((err)=>{
+  console.log(err)
+})
 
 //TEMPLATE ENGİNE
 app.set('view engine', 'ejs');
@@ -37,7 +42,7 @@ app.get('/blogs/edit/:id', pageController.getEditPage);
 
 app.post('/blogs', blogController.createBlog);
 
-const port = 4000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} basladı`);
